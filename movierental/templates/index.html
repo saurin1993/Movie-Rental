@@ -1,0 +1,51 @@
+
+
+<html>
+
+<head>
+    <style>
+
+        table,th,tr,td{
+border: 2px solid #396fc6;
+border-collapse: collapse;
+}
+    </style>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    {% load static %}
+    <title>
+        Movie Rental
+    </title>
+
+     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+</head>
+<body>
+
+
+    <div class="header">
+
+    </div>
+
+    <ul>
+        <!--<li><a href="{% url 'homepage' %}">Home</a></li>-->
+        <li><a href="{% url 'movie_all' %}">All Movies</a></li>
+        <li><a href="{% url 'cust_all' %}">All Customer</a></li>
+        <li><a href="{% url 'movie_available' %}">Available Movie</a></li>
+        <li><a href="{% url 'movie_add' %}">Add Movie</a> </li>
+        <li><a href="{% url 'cust_add' %}">Add Customer</a> </li>
+        <li><a href="{% url 'movie_rented' %}">Rented</a></li>
+        <li><a href="{% url 'movie_assign' %}">Assign</a></li>
+        <li><a href="{% url 'logout' %}">Log Out</a> </li>
+
+
+    </ul>
+
+
+
+
+    {% block content %}
+
+    {% endblock %}
+</body>
+</html>
