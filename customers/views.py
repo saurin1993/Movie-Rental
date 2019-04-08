@@ -2,12 +2,10 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from . import forms
-from customers.forms import CustomerForm
 from customers.models import Customers
 from .forms import CustomerForm
 
-from customers import urls
-from django.conf.urls import url
+
 @login_required(login_url='/accounts/login/')
 def cust_add(request):
     if request.method == 'POST':
@@ -37,17 +35,6 @@ def cust_all (request):
     return render(request, 'customer_all.html' ,allcustomers)
 
 
-# def cust_update(request, id):
-#     cust_upd = Customers.objects.get(id=id)
-#     if request.method == 'POST':
-#         form2 = forms.CustomerForm(request.POST,instance=cust_upd)
-#         if form2.is_valid():
-#             j = form2.save(commit = False)
-#             j.save()
-#             return redirect('cust_all')
-#     else:
-#         form2 = forms.CustomerForm(instance = cust_upd)
-#     return render(request, 'customer_add.html', {'form': form2})
 @login_required(login_url='/accounts/login/')
 def cust_update(request,id):
     cust_updt=Customers.objects.get(id=id)
@@ -62,23 +49,84 @@ def cust_update(request,id):
             form = forms.CustomerForm(instance=cust_updt)
     return render(request,'customer_add.html',{'form': form})
 
-# def cust_update(request, id):
-#
-# cust_upd = Customers.objects.get(id=id)
-#     if request.method == 'POST':
-#         form2 = forms.CustomerForm(request.POST,instance=cust_upd)
-#         if form2.is_valid():
-#             j = form2.save(commit = False)
-#             j.save()
-#             return redirect('cust_all')
-#     else:
-#         form2 = forms.CustomerForm(instance = cust_upd)
-#     return render(request, 'customer_add.html', {'form': form2})
+
 @login_required(login_url='/accounts/login/')
 def cust_delete(request,id):
     y = Customers.objects.get(id=id)
     y.delete()
     return redirect('cust_all')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

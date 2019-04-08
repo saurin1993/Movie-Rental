@@ -1,14 +1,13 @@
-from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.utils.decorators import method_decorator
 from django.views.generic import TemplateView
-
+from rest_framework import status
 from customers.models import Customers
 from . import forms
 from movies.forms import MovieForm
 from movies.models import Movies
-
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from movies.serializers import MoviesSerializers
 
 def movie_add(request):
     if request.method == 'POST':
@@ -37,18 +36,9 @@ def movie_delete(request, id):
 
         return redirect('movie_all')
 
-    # return render(request,'<h1> Delete {}</h1>',{}.format(id))
-
-
-# def movie_assign(request):
-#     pass
-#     return HttpResponse()
-
-
 def movie_all(request):
     allmovie = {}
     movie1 = Movies.objects.all()
-
     allmovie["movie_data"] = movie1
     return render(request, 'movie_all.html', allmovie)
 
@@ -56,7 +46,6 @@ def movie_all(request):
 def movie_available(request):
     m = {}
     movie1 = Movies.objects.filter(rentedBy=None)
-
     m["movie_data"] = movie1
     # return render(request, 'movie_available.html', m)
     return render(request, 'movie_available.html', m)
@@ -113,6 +102,38 @@ class assignmovie(TemplateView):
 
 
 
+class MoviesViewset(APIView):
+
+        def get(self,request,id=id):
+            '''Get movie_object by id'''
+            queryset = Movies.objects.get(id=id)
+            serializer = MoviesSerializers(queryset)
+            return Response(serializer.data)
+
+        def delete(self,request,id=id):
+            ''' delete Movie_object by id'''
+            mov_delete = Movies.objects.get(id=id)
+            mov_delete.delete()
+            serializer = MoviesSerializers(mov_delete)
+            return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+
+class Movies_data(APIView):
+
+        def get(self,request):
+            '''Gets all movie object'''
+            movies = Movies.objects.all()
+            serializer = MoviesSerializers(movies, many=True)
+            return Response(serializer.data)
+
+        def post(self, request, format=None):
+            '''Adds Movie object'''
+            serializer = MoviesSerializers(data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data, status=status.HTTP_201_CREATED)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 
@@ -125,4 +146,7 @@ class assignmovie(TemplateView):
 
 
 
-# Create your views here.
+
+
+
+
