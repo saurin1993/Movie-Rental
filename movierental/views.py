@@ -1,9 +1,9 @@
-from django.contrib.auth import authenticate
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth import login as auth_login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth import logout
+#from django.contrib.auth import logout
 
 def homepage(request):
     if request.method == 'POST':
